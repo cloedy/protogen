@@ -1,4 +1,4 @@
-module github.com/cloedy/cmdtools
+module github.com/cloedy/protogen
 
 go 1.22.0
 
