@@ -1,14 +1,14 @@
 package cmd
 
 import (
-	"os"
-	"strings"
-	"text/template"
+    "os"
+    "strings"
+    "text/template"
 )
 
 type datam struct {
-	Name  string
-	Name2 string
+    Name  string
+    Name2 string
 }
 
 const prototpl = `
@@ -18,6 +18,7 @@ message {{.Name}} {
 
 message {{.Name}}Item {
   {{.Name}} items = 1;
+  int64 total = 2;
 }
 
 message {{.Name}}Request {
@@ -31,16 +32,16 @@ message {{.Name}}Return {
 `
 
 func protogen(name string) {
-	name2 := name
-	name = strings.ToUpper(name[0:1]) + name[1:]
-	data := datam{Name: name, Name2: name2}
+    name2 := name
+    name = strings.ToUpper(name[0:1]) + name[1:]
+    data := datam{Name: name, Name2: name2}
 
-	tmpl, err := template.New("p3").Parse(prototpl)
-	if err != nil {
-		panic(err)
-	}
-	if err := tmpl.Execute(os.Stdout, data); err != nil {
-		panic(err)
-	}
+    tmpl, err := template.New("p3").Parse(prototpl)
+    if err != nil {
+        panic(err)
+    }
+    if err := tmpl.Execute(os.Stdout, data); err != nil {
+        panic(err)
+    }
 
 }
