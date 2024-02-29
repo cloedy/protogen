@@ -15,7 +15,7 @@ type datam struct {
 const prototpl = `
 message {{.Name}} {
   string {{.Name2}}_id = 1 [json_name = "{{.Name2}}_id", (validate.rules).string.len = 32];
-  string {{.Name2}}_name = 1 [json_name = "{{.Name2}}_id", (validate.rules).string = {min_len: 1, max_len: 255}];
+  string {{.Name2}}_name = 2 [json_name = "{{.Name2}}_id", (validate.rules).string = {min_len: 1, max_len: 255}];
 }
 
 message {{.Name}}Item {
