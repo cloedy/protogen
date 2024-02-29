@@ -4,6 +4,7 @@ import (
     "os"
     "strings"
     "text/template"
+    "unicode"
 )
 
 type datam struct {
@@ -22,7 +23,7 @@ message {{.Name}}Item {
 }
 
 message {{.Name}}Request {
-  string id = 1 [json_name = "id"];
+  string {{.Name2}}_id = 1 [json_name = "{{.Name2}}_id"];
 }
 
 message {{.Name}}Return {
@@ -34,6 +35,7 @@ message {{.Name}}Return {
 func protogen(name string) {
     name2 := name
     name = strings.ToUpper(name[0:1]) + name[1:]
+    name2 = camelToSnake(name)
     data := datam{Name: name, Name2: name2}
 
     tmpl, err := template.New("p3").Parse(prototpl)
@@ -44,4 +46,19 @@ func protogen(name string) {
         panic(err)
     }
 
+}
+
+func camelToSnake(s string) string {
+    result := make([]rune, 0, len(s)*2)
+    for i, runeValue := range s {
+        if unicode.IsUpper(runeValue) {
+            if i > 0 {
+                result = append(result, '_')
+            }
+            result = append(result, unicode.ToLower(runeValue))
+        } else {
+            result = append(result, runeValue)
+        }
+    }
+    return string(result)
 }
